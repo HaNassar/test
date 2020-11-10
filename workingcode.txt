@@ -1,0 +1,79 @@
+using System;
+using Newtonsoft.Json;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.Json;
+using System.Diagnostics.CodeAnalysis;
+using System.Transactions;
+using System.Collections.Specialized;
+
+namespace project
+{
+    partial class Program
+    {
+        
+        
+        static void Main(string[] args)
+        {
+            List<User> userdata = new List<User>();
+            //userdata.Add(new User("hanna", 1, 1, 1999, 3));
+            //userdata.Add(new User("nassar", 2, 1, 2000, 1));
+            //userdata.Add(new User("hala", 3, 1, 1999, 0));
+            //string h = JsonConvert.SerializeObject(userdata);
+            string path = @"test.json";
+            //using (var tw = new StreamWriter(path, true))
+            //{
+            //    tw.WriteLine(h.ToString());
+
+            //    tw.Close();
+            //}
+            
+            //Console.WriteLine("Stored");
+
+
+            using (StreamReader streamReader = new StreamReader(path, true))
+            {
+                string json = streamReader.ReadToEnd();
+                userdata = JsonConvert.DeserializeObject<List<User>>(json);
+                streamReader.Close();
+            }
+            foreach (var item in userdata)
+            {
+                Console.WriteLine("name :"+item.UName);
+            }
+           
+            userdata.Add(new User("morheb", 3, 1, 1999, 0));
+            var convertedJson = JsonConvert.SerializeObject(userdata/*, Formatting.Indented*/);
+            System.IO.File.WriteAllText(path, convertedJson);
+
+            //using (var tw = new StreamWriter(path, true))
+            //{
+            //    tw.WriteLine(convertedJson.ToString());
+
+            //    tw.Close();
+            //}
+            //string h = JsonConvert.SerializeObject(userdata);
+
+            //using (var tw = new StreamWriter(path, true))
+            //{
+            //    tw.WriteLine(h.ToString());
+
+            //    tw.Close();
+            //}
+
+            //Console.WriteLine("Stored");
+
+            //foreach (var item in userdata)
+            //{
+            //    Console.WriteLine(item.UName);
+            //}
+            //string uname;
+            //int uid, udate, ucountryid, ucarcounter;
+            //createaccount(uname,uid,udate,ucountryid,ucarcounter);
+
+
+        }
+    }
+}
